@@ -1197,7 +1197,7 @@ namespace Teddit
         }
     }
 
-    [HarmonyPatch(typeof(UIRowFacility), "GetTooltipString")]
+    [HarmonyPatch(typeof(UIRowFacility), "GetTooltip")]
     static class PatchChoseFacilityRowTooltip
     {
         static readonly FieldInfo _rowDataField = typeof(UIRowFacility)
@@ -1205,7 +1205,7 @@ namespace Teddit
         static readonly FieldInfo _isDisabledField = typeof(UIRowFacility)
             .GetField("isDisabled", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-        static void Postfix(UIRowFacility __instance, ref string __result)
+        static void Postfix(UIRowFacility __instance, ref (string, List<(string, string)>, string) __result)
         {
             var rowData = _rowDataField?.GetValue(__instance) as RowFacilityData;
             var descriptor = rowData?.FacilityDescriptor;
@@ -1213,9 +1213,9 @@ namespace Teddit
                 return;
 
             string baseTooltip = descriptor.Tooltip();
-            if (string.IsNullOrWhiteSpace(__result))
+            if (string.IsNullOrWhiteSpace(__result.Item1))
             {
-                __result = baseTooltip;
+                __result.Item1 = baseTooltip;
                 return;
             }
 
@@ -1223,11 +1223,11 @@ namespace Teddit
             if (!isDisabled)
                 return;
 
-            if (!string.Equals(__result, baseTooltip, StringComparison.Ordinal))
-                __result = baseTooltip + "\n\n" + __result;
+            if (!string.Equals(__result.Item1, baseTooltip, StringComparison.Ordinal))
+                __result.Item1 = baseTooltip + "\n\n" + __result.Item1;
         }
 
-        static Exception Finalizer(UIRowFacility __instance, Exception __exception, ref string __result)
+        static Exception Finalizer(UIRowFacility __instance, Exception __exception, ref (string, List<(string, string)>, string) __result)
         {
             if (__exception == null)
                 return null;
@@ -1239,7 +1239,7 @@ namespace Teddit
 
             if (descriptor == null)
             {
-                __result = Language.LEManager.Get("ToolTip_empty");
+                __result.Item1 = Language.LEManager.Get("ToolTip_empty");
                 return null;
             }
 
@@ -1247,13 +1247,14 @@ namespace Teddit
             string description = Language.LEManager.Get(id + "_Description", string.Empty) ?? string.Empty;
             string capabilities = Language.LEManager.Get(id + FacilityBaseDescriptor.CapabilitiesString, string.Empty) ?? string.Empty;
 
-            __result = descriptor.TooltipStart
+            string text = descriptor.TooltipStart
                 + "<size=14><font=\"Oxanium-Medium SDF\"><b><color=white>" + name + "</color></b></font></size>\n\n"
                 + description;
 
             if (!string.IsNullOrWhiteSpace(capabilities))
-                __result += "\n\n" + capabilities;
+                text += "\n\n" + capabilities;
 
+            __result.Item1 = text;
             return null;
         }
     }
