@@ -1,0 +1,82 @@
+enabled: true
+
+# ── New companies ──────────────────────────────────────────────────────────────
+# new_companies: entries are handled by CompanyCreator (three-phase injection).
+# They MUST be defined here; the existing patch block below only patches
+# companies that are already present in AllCompanyDefinitions.
+#
+# Fields:
+#   donor          (string)  ID of the Company to clone for the MonoBehaviour.
+#                            Omit or leave blank to auto-select an AI company.
+#   startingMoney  (double)  Starting cash.  Default: 100000000  (100 M)
+#   onInMenu       (bool)    Show as a player-selectable option.  Default: true
+#   alwaysActiveAI (bool)    Add to enabledRivalCorporations so the AI is
+#                            always active regardless of the player's choices.
+#                            Default: true
+#
+# After Phase 1 creates the definition, ScriptableObjectPatcher.RunCompanies
+# will also apply any aiConfig / populationConfig / marketConfig keys you add
+# below in the normal patch block (using the same ID).
+#
+# Example (uncomment to enable):
+new_companies:
+  id_company_aurora_dynamics:
+    donor: id_company_spacey
+    startingMoney: 120000000
+    onInMenu: true
+    alwaysActiveAI: true
+
+# ── Existing company patches ───────────────────────────────────────────────────
+# Company definition patches.
+# Keys are company IDs from dump/companies.yaml.
+# Existing company definitions are patched in place.
+#
+# Keys are company definition IDs from dump/companies.yaml.
+#
+# Fields that look straightforward to patch later:
+#   isWorldGovernment: bool
+#   mainObject: object name / main body reference
+#   onInMenu: bool
+#   skipCosts: bool
+#
+#   populationConfig:
+#     housingExpectancyModifier: int
+#     foodDemandMultiplier: float
+#     populationParameter: float
+#     minPopulationSize: int
+#     minConsumptionRate: float
+#
+#   marketConfig:
+#     requiredMoneyMarginMultiplier: float
+#     futureResourceStorageMultiplier: float
+#
+#   aiConfig:
+#     costMultiplier:
+#       money: double
+#       time: double
+#     costCalcType: Sum | Max | Min | Magnitude
+#     makeOfferTimeThreshold: float
+#     makeOfferMinEndTime: float
+#     makeOfferMaxEndTime: float
+#     makeOfferEndTimeMultiplier: float
+#     makeOfferUnitCostMultiplier:
+#       money: double
+#       time: double
+#     takeOffersFromOtherAIs: bool
+#     takeOfferOnlyInstant: bool
+#     takeOfferTimeThreshold: float
+#     takeOfferBuyUnitCostMultiplier:
+#       money: double
+#       time: double
+#     takeOfferSellUnitCostMultiplier:
+#       money: double
+#       time: double
+#     cachePlanMissionResults: bool
+#     cacheAsyncResults: bool
+#     includeUnlockableSpacecraftAndLVsForFlights: bool
+#
+# Notes:
+# - The actual strategic AI flow still lives in Behavior Designer trees and AI.CompanyBehaviour.
+# - These company fields are the easy knobs: market behavior, AI cost weighting, caching,
+#   unlock permissiveness, and population/economic multipliers.
+# - Dump format and patch format are intended to match for these fields.

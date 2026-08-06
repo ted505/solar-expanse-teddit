@@ -1,0 +1,43 @@
+enabled: true
+
+# Research definition patches.
+# Keys are research IDs from dump/research.yaml.
+# Existing IDs are patched in place.
+#
+# Supported simple fields:
+#   isLocked:           bool    hidden from the tree until unlocked
+#   isLockedForUI:      bool    hidden from the UI entirely
+#   workHourToComplete: float   total research work-hours required
+#
+# Supported complex fields:
+#   requirementsResearch:
+#     - research_id_a
+#     - research_id_b
+#
+#   unlocks:
+#     - action: UnlockFacility
+#       id: build_fuel
+#     - action: UnlockSpacecraftType
+#       id: spacecraft_chem_small
+#
+#   replaceUnlocks: true
+#     true  = replace the research's full unlock set with the list above
+#     false = append the listed unlocks to the research's existing unlocks
+#             while de-duplicating matching entries
+#
+# Supported unlock actions:
+#   UnlockFacility
+#   UnlockSpacecraftType
+#   UnlockVehicleType
+#   UnlockResearch
+#
+# Notes:
+#   The dump only includes supported unlock shapes.
+#   More complex unlock/bonus structures still need dedicated patcher support.
+#
+# Example:
+# research_fuel_1:
+#   workHourToComplete: 1200
+#   requirementsResearch:
+#     - research_basic_industry
+

@@ -1,0 +1,63 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\parft\\Documents\\SolarExpanseMods\\solar-expanse-teddit\\Source\\Teddit\\Teddit.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\parft\\Documents\\SolarExpanseMods\\solar-expanse-teddit\\Source\\Teddit\\Teddit.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\parft\\Documents\\SolarExpanseMods\\solar-expanse-teddit\\Source\\Teddit\\Teddit.csproj",
+        "projectName": "Teddit",
+        "projectPath": "C:\\Users\\parft\\Documents\\SolarExpanseMods\\solar-expanse-teddit\\Source\\Teddit\\Teddit.csproj",
+        "packagesPath": "C:\\Users\\parft\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\parft\\Documents\\SolarExpanseMods\\solar-expanse-teddit\\Source\\Teddit\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\parft\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "targetAlias": "net471",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "targetAlias": "net471",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            },
+            "YamlDotNet": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[13.7.1, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.420\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

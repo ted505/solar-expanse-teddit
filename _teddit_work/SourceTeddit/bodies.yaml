@@ -1,0 +1,35 @@
+enabled: true
+
+# Body patches.
+# Keys are body names exactly as they appear in dump/bodies.yaml (spaces allowed).
+# Unknown names are silently skipped.
+#
+# ── Fields ───────────────────────────────────────────────────────────────────────
+#   objectTypes:              enum   — Planet / Moons / Asteroid / DwarfPlanet /
+#                                      Comet / Orbit / Belt / Other
+#                                      Controls mission planner routing and landing
+#                                      rules. Set to Asteroid to allow direct surface
+#                                      access without an orbital approach.
+#   objectSubTypeId:          string — subtype ID from dump/bodies.yaml (e.g.
+#                                      ObjectSubType.AsteroidStone). Governs mining
+#                                      slot templates and resource map categories.
+#                                      Use "" to clear the subtype entirely.
+#   removeOrbit:              bool   — removes the "{name} [ORBIT]" companion body
+#                                      so the game no longer generates orbital
+#                                      approach missions for this body.
+#   removeFromParentMoonList: bool   — removes this body from the parent planet's
+#                                      internal moon list. Defaults to false; the
+#                                      body stays listed under its parent in the UI
+#                                      even when objectTypes is changed.
+#
+# ── Example: convert Mars moons to asteroid-like bodies ──────────────────────────
+#
+# PHOBOS:
+#   objectTypes: Asteroid
+#   objectSubTypeId: ObjectSubType.AsteroidStone
+#   removeOrbit: true
+#
+# DEIMOS:
+#   objectTypes: Asteroid
+#   objectSubTypeId: ObjectSubType.AsteroidStone
+#   removeOrbit: true

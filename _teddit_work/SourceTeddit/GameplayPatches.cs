@@ -567,7 +567,7 @@ namespace Teddit
     // workforce efficiency, and shutdown notifications — matching the
     // ground-facility behaviour minus habitability.
 
-    [HarmonyPatch(typeof(EnergyProductionModule), "ProductEnergy", new[] { typeof(double) })]
+    [HarmonyPatch(typeof(EnergyProductionModule), "ProductEnergy")]
     static class PatchEnergyModuleProductEnergy
     {
         static bool Prefix(EnergyProductionModule __instance, double days)

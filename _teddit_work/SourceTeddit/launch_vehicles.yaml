@@ -1,0 +1,40 @@
+enabled: true
+
+# Launch vehicle patches and new launch vehicle definitions.
+# Keys are launch vehicle IDs from dump/launch_vehicles.yaml.
+# Existing IDs are patched in place. Unknown IDs are created as new launch vehicles.
+#
+# New-entry note:
+# Teddit must borrow baked Unity prefabs from an existing launch vehicle.
+# This donor carries the launch vehicle's baked 3D preview/model data too.
+# You can choose the donor explicitly with:
+#   cloneFrom: launch_vehicle_id
+# If omitted, Teddit picks the first non-fake donor it finds.
+#
+# Supported fields:
+#   timeToBuildInDays:                    float
+#   constructionEquipmentCountIsRequired: bool
+#   buildCost:                            double
+#   buildResources:                       { resource_id: amount }
+#   maxPayload:                           float   max payload to surface in tonnes
+#   maxFuelLoad:                          float   max fuel load in tonnes
+#   costLaunch:                           float   fuel cost per launch
+#   exhaustV:                             float   exhaust velocity
+#   reusability:                          float   0 = expendable, 1 = fully reusable
+#   maintenanceCostPerDay:                float
+#   canSendHuman:                         bool
+#   isLocked:                             bool
+#   forCycleMission:                      bool
+#   fakeForFacility:                      bool
+#   canBuyMaxPayload:                     bool
+#   special:                              enum    launch-vehicle special mode from the dump
+#   cloneFrom:                            string  optional donor launch vehicle ID for prefab/model/3D preview borrowing
+#   iconRef:                              string  base-game 2D sprite name from the dump; reuses built-in UI art
+#   icon:                                 string  optional PNG/JPEG path for custom UI art
+#   fuelType:                             string  resource ID used as launch propellant (dump-compatible)
+#
+# Example:
+# lv_chem_small:
+#   maxPayload: 120
+#   reusability: 0.4
+

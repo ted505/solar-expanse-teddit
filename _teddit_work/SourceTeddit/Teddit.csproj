@@ -93,9 +93,9 @@
 
   <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployTeddit)' == 'true'">
     <PropertyGroup>
-      <PluginDir>$(BepInExDir)\plugins\Teddit</PluginDir>
-      <RepoRootDir>$(MSBuildProjectDirectory)\..\..</RepoRootDir>
-      <RepoPluginDir>$(RepoRootDir)\Teddit</RepoPluginDir>
+      <PluginDir>C:\Program Files (x86)\Steam\steamapps\common\Solar Expanse\BepInEx\plugins\Teddit</PluginDir>
+      <RepoPluginDir>C:\Users\parft\Documents\SolarExpanseMods\solar-expanse-teddit\Teddit</RepoPluginDir>
+      <RepoRootDir>C:\Users\parft\Documents\SolarExpanseMods\solar-expanse-teddit</RepoRootDir>
       <ExampleModDir>$(RepoRootDir)\example_mod</ExampleModDir>
     </PropertyGroup>
 

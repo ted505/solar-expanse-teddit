@@ -1,0 +1,30 @@
+# facility_placements.yaml — place existing facility descriptors on (body, company)
+# pairs at game start.
+#
+# Defaults to new-game-only. Set unsafeOverride: true on an entry to force placement
+# when loading a saved game (useful for testing, can produce duplicates over reloads).
+#
+# Body keys are ObjectInfo.ObjectName values (uppercase: MARS, EARTH, LUNA, ...).
+# Company is the CompanyDefinition.ID, or the alias 'world_government' to target
+# whichever company has IsWorldGovernment=true.
+# The company must be active in the current game. If it was disabled on the
+# start-game screen, Teddit skips the entry.
+#
+# Example (uncomment to use):
+#
+# enabled: true
+#
+# MARS:
+#   - company: id_company_spacey
+#     facility: id_facility_solar_panel
+#     count: 2
+#   - company: world_government
+#     facility: id_facility_mining_drill
+#
+# LUNA:
+#   - company: id_company_spacey
+#     facility: id_facility_communication_antenna
+#     count: 1
+#     unsafeOverride: false
+
+enabled: true

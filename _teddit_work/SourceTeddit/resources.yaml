@@ -1,0 +1,59 @@
+enabled: true
+
+# Resource patches and new resource definitions.
+# Keys are resource IDs from dump/resources.yaml.
+# Existing IDs are patched in place. Unknown IDs are created as new resources.
+#
+# General rule:
+# The patch format should match the dump format whenever possible.
+#
+# Common fields:
+#   resourceType:                     Normal | Energy | Human
+#   showOnUI:                         bool
+#   canBeLeftOnObject:                bool
+#   marketClearingPriceBase:          double
+#   priceChangeMultiplier:            double
+#   startingSummedPreviousTradesQuantity: float
+#   startingPreviousTradesCount:      float
+#   toSortMarketOffer:                int
+#   showInMarket:                     bool    include in market offer lists
+#   cloneFrom:                        string  optional donor resource ID to inherit hidden base-game fields from
+#   iconRef:                          string  base-game resource/facility/spacecraft/LV sprite name from a dump
+#   icon:                             string  PNG/JPEG path relative to the mod folder unless absolute
+#   name:                             string  display name injected into localization
+#   description:                      string  tooltip description injected into localization
+#   terraformationInfo:
+#     resourceOpticalDepthParameter:  double
+#     resourceHeatCapacity:           double
+#     vaporizationLatentHeat:         double
+#     baseTemperatureBoiling:         double
+#     temperatureMelting:             double
+#     pressureTriplePoint:            double
+#   toxicityCurve:
+#     preWrapMode:                    Clamp | Loop | PingPong | Default | Once | ClampForever
+#     postWrapMode:                   Clamp | Loop | PingPong | Default | Once | ClampForever
+#     keys:
+#       - time: 0
+#         value: 0
+#         inTangent: 0
+#         outTangent: 0
+#         weightedMode: None
+#         inWeight: 0
+#         outWeight: 0
+#
+# Notes:
+#   Teddit uses named TMP sprites for modded/custom-icon resources, so new resources can use
+#   standalone sprites instead of the base game's atlas index system.
+#
+# Example:
+# id_resource_catnip:
+#   resourceType: Normal
+#   icon: cat.jpg
+#   name: Catnip
+#   description: A suspiciously strategic agricultural commodity.
+#   marketClearingPriceBase: 1200
+#   priceChangeMultiplier: 1.1
+#   showOnUI: true
+#   canBeLeftOnObject: true
+#   showInMarket: true
+

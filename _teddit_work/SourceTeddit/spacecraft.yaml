@@ -1,0 +1,58 @@
+enabled: true
+
+# Spacecraft patches and new spacecraft definitions.
+# Keys are spacecraft IDs from dump/spacecraft.yaml.
+# Existing IDs are patched in place. Unknown IDs are created as new spacecraft.
+#
+# General rule:
+# The patch format should match the dump format whenever possible.
+#
+# New-entry note:
+# Teddit must borrow baked Unity prefabs from an existing spacecraft.
+# You can choose the donor explicitly with:
+#   cloneFrom: spacecraft_id
+# If omitted, Teddit picks the first non-cheat donor it finds.
+#
+# Common fields:
+#   engineType:                           enum    engine type name from the dump
+#   orbitSC:                              bool    true = orbital only, cannot land
+#   solarSC:                              bool    true = solar sail / solar-dependent craft
+#   solarParameter:                       float   solar performance parameter
+#   isLocked:                             bool    hidden from build UI until unlocked
+#   needLaunchVehicleToGoToMoon:          bool
+#   buildOnlyLowOrbit:                    bool
+#   canByBuildByUser:                     bool
+#   lowOrbitContainer:                    bool
+#   magneticCatapult:                     bool
+#   reusability:                          float
+#   constanceAcceleration:                bool
+#   isInterstellarShip:                   bool
+#   asteroidPullingShip:                  bool
+#   timeToBuildInDays:                    float
+#   constructionEquipmentCountIsRequired: bool
+#   buildCost:                            double
+#   buildResources:                       { resource_id: amount }
+#   cloneFrom:                            string   optional donor spacecraft ID for prefab/model borrowing
+#   iconRef:                              string   base-game 2D sprite name from the dump; reuses built-in UI art
+#   icon:                                 string   optional PNG/JPEG path for custom UI art
+#   fuelType:                             string   resource ID consumed as propellant (dump-compatible)
+#   cargoCapacity:                        float
+#   fuelCapacity:                         float
+#   thrust:                               float
+#   exhaustV:                             float
+#   mass:                                 float
+#   maxLifeSupport:                       float
+#   availableDeltaV:                      float
+#   maintenanceCostPerDay:                float
+#   maxPayload:                           float|null
+#
+# Hull note:
+#   Some spacecraft are completed hull designs. For those, Teddit automatically
+#   remaps cargoCapacity / fuelCapacity / mass / thrust / exhaustV / maxLifeSupport
+#   into the hull base fields so the patch still works.
+#
+# Example:
+# spacecraft_chem_small:
+#   cargoCapacity: 200
+#   maintenanceCostPerDay: 4
+

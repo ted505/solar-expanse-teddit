@@ -1,0 +1,19 @@
+# Gameplay Patches
+#
+# Behavioral patches that fix or extend game mechanics via Harmony hooks.
+# Unlike data patches (facilities.yaml, etc.), these modify runtime logic.
+# This file is read from the root Teddit plugin directory only.
+
+enabled: true
+
+# When true, construction modules respect the same efficiency system as
+# every other facility: power, workers, habitability, and resource
+# availability all feed into each module's effective construction power.
+# Without this, a construction module with zero power still provides full
+# construction speed — the stock code hardcodes 1.0.
+constructionRespectsEfficiency: true
+
+# When true, EnergyProductionModule (space) consumes fuel from
+# energyProductionData.input, matching the ground facility behavior.
+# Stock code ignores the input array entirely for space modules.
+energyModuleConsumeFuel: true
