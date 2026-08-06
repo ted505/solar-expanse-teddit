@@ -1,0 +1,195 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <AssemblyName>Teddit</AssemblyName>
+    <RootNamespace>Teddit</RootNamespace>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GameDir>E:\STEAM\steamapps\common\Solar Expanse</GameDir>
+    <ManagedDir>$(GameDir)\Solar Expanse_Data\Managed</ManagedDir>
+    <BepInExDir>$(GameDir)\BepInEx</BepInExDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AIOverhaul.cs" />
+    <Compile Remove="CompanyCreator.cs" />
+    <Compile Remove="CompanyPatches.cs" />
+    <Compile Remove="CorporationSelectPatch.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExDir)\core\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExDir)\core\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>$(ManagedDir)\Sirenix.Serialization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Serialization.Config">
+      <HintPath>$(ManagedDir)\Sirenix.Serialization.Config.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Utilities">
+      <HintPath>$(ManagedDir)\Sirenix.Utilities.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BehaviorDesigner.Runtime">
+      <HintPath>$(ManagedDir)\BehaviorDesigner.Runtime.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ManagedDir)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>$(ManagedDir)\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(ManagedDir)\Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(ManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="13.7.1">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployTeddit)' == 'true'">
+    <PropertyGroup>
+      <PluginDir>C:\Program Files (x86)\Steam\steamapps\common\Solar Expanse\BepInEx\plugins\Teddit</PluginDir>
+      <RepoPluginDir>C:\Users\parft\Documents\SolarExpanseMods\solar-expanse-teddit\Teddit</RepoPluginDir>
+      <RepoRootDir>C:\Users\parft\Documents\SolarExpanseMods\solar-expanse-teddit</RepoRootDir>
+      <ExampleModDir>$(RepoRootDir)\example_mod</ExampleModDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ExampleModFiles Include="$(ExampleModDir)\**\*" Condition="Exists('$(ExampleModDir)')" />
+    </ItemGroup>
+
+    <MakeDir Directories="$(PluginDir)" />
+    <MakeDir Directories="$(RepoPluginDir)" />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(PluginDir)" />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(RepoPluginDir)" />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).pdb" DestinationFolder="$(PluginDir)" Condition="Exists('$(OutputPath)$(AssemblyName).pdb')" />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).pdb" DestinationFolder="$(RepoPluginDir)" Condition="Exists('$(OutputPath)$(AssemblyName).pdb')" />
+    <Copy SourceFiles="$(OutputPath)YamlDotNet.dll" DestinationFolder="$(PluginDir)" />
+    <Copy SourceFiles="$(OutputPath)YamlDotNet.dll" DestinationFolder="$(RepoPluginDir)" />
+
+    <MakeDir Directories="$(PluginDir)\mods" />
+    <MakeDir Directories="$(RepoPluginDir)\mods" />
+    <RemoveDir Directories="$(PluginDir)\mods\example_mod" Condition="Exists('$(PluginDir)\mods\example_mod')" />
+    <RemoveDir Directories="$(RepoPluginDir)\mods\example_mod" Condition="Exists('$(RepoPluginDir)\mods\example_mod')" />
+    <MakeDir Directories="$(PluginDir)\example_mod" Condition="Exists('$(ExampleModDir)')" />
+    <Copy SourceFiles="@(ExampleModFiles)"
+          DestinationFiles="@(ExampleModFiles->'$(PluginDir)\example_mod\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true"
+          Condition="Exists('$(ExampleModDir)')" />
+
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\facilities.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\facilities.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\facilities.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\facilities.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\resources.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\resources.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\resources.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\resources.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\companies.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\companies.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\companies.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\companies.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\spacecraft.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\spacecraft.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\spacecraft.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\spacecraft.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\deposits.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\deposits.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\deposits.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\deposits.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\life_support.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\life_support.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\life_support.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\life_support.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\launch_vehicles.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\launch_vehicles.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\launch_vehicles.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\launch_vehicles.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\research.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\research.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\research.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\research.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\facility_placements.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\facility_placements.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\facility_placements.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\facility_placements.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\starting_resources.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\starting_resources.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\starting_resources.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\starting_resources.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\gameplay_patches.yaml"
+          DestinationFolder="$(PluginDir)"
+          Condition="!Exists('$(PluginDir)\gameplay_patches.yaml')" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\gameplay_patches.yaml"
+          DestinationFolder="$(RepoPluginDir)"
+          Condition="!Exists('$(RepoPluginDir)\gameplay_patches.yaml')" />
+
+    <Message Text="Deployed to $(PluginDir) and $(RepoPluginDir)" Importance="High" />
+  </Target>
+
+</Project>

@@ -1,0 +1,127 @@
+enabled: true
+
+# Facility patches and new facility definitions.
+# Keys are facility IDs from dump/facilities.yaml.
+# If the ID already exists in the game, Teddit patches that descriptor.
+# If the ID does not exist, Teddit creates a new facility descriptor.
+#
+# General rule:
+# The patch format should match the dump format. If a field appears in the dump,
+# you should be able to copy it here and edit it directly.
+#
+# Simple fields:
+#   maintenanceCostPerDay:                float   daily upkeep cost
+#   energyConsumption:                    double  energy draw per enabled unit per day
+#   needWorkersToWork:                    int     crew required per enabled unit
+#   specialAbilityParameter:              float   context-dependent stat (mining rate, crew cap, etc.)
+#   upkeepStacking:                       bool    whether upkeep scales with additional units
+#   upkeepStackingValue:                  float   extra upkeep per stacked unit
+#   blockStacking:                        bool    true = separate facility instances, false = merge identical built facilities
+#   canBuildBy:                           enum    build-limit mode from CanBuildParameter.ECanBuild
+#   countOnPlanet:                        long    max allowed on one body when canBuildBy: countOnPlanet
+#   timeToBuildInDays:                    float   construction time in in-game days
+#   constructionEquipmentCountIsRequired: bool    whether Construction Equipment is required to build
+#   price.buildCost:                      double  direct nested form for money cost
+#   energyProductionData.energyProduction:double  direct nested form for power output
+#   energyStorageData2.energyMaxCapacity: double  direct nested form for power storage
+#   resourceExplorationBonus:             float   GroundFacilityDescriptor only; adds exploration power
+#   facilityItemClass:                    string  runtime facility class name, e.g. LabFacility
+#   mass:                                 float   SpaceModuleDescriptor only; cargo mass of the module
+#   canBeLoadAsCargo:                     bool    SpaceModuleDescriptor only; whether the module can be moved by vehicle
+#   buildOnOrbitSpaceModuleAllow:         bool    SpaceModuleDescriptor only; whether the module is allowed in orbit build contexts
+#   timeToDestroyInDay:                   float?  SpaceModuleDescriptor only; optional timed self-destruction
+#   spaceModuleType:                      enum    SpaceModuleDescriptor only; module subtype
+#   typeSubObjectInfo:                    enum    SpaceModuleDescriptor only; sub-object rendering type
+#   isLockedCreate:                       bool    SpaceModuleDescriptor only; internal create-lock flag
+#   isSpaceConstructionOnOrbit:           bool    SpaceModuleDescriptor only; this module constructs a ship on orbit
+#
+# Complex fields:
+#   buildCost:         double                       shorthand money cost field
+#   buildResources:    { resource_id: amount }     physical resources required to build
+#   resourcesToMine:   [resource_id, ...]          resources a Mining facility can extract
+#   refinerInput:      { resource_id: rate }       resources consumed per day by a Refiner facility
+#   refinerOutput:     { resource_id: rate }       resources produced per day by a Refiner facility
+#   energyStorage:     double                       energy storage capacity
+#   canBuildBy:        enum                         build-limit / placement gate mode
+#   countOnPlanet:     long                         limit value for canBuildBy: countOnPlanet
+#   byproducts:                                      side outputs
+#     - resource: id_resource_co2
+#       rate: 0.5
+#       state: Gas
+#   labBonusToResearchInPerHour: int               LabFacility only; flat research points per hour
+#   labResearchSubTypeId:       string|null        optional ResearchSubType ID filter
+#   labIdToBonus:               [id, ...]          optional exact research IDs, or ["All"]
+#   facilityOrModuleToInstall:  facility_id        SpaceModuleDescriptor only; target installed by an InstallationModule
+#   isSpaceConstructionOnOrbitSpaceCraftToCreate: spacecraft_id
+#                                                 SpaceModuleDescriptor only; spacecraft created by an orbital construction module
+#   isSpaceConstructionOnOrbitLaunchVehicleCanUse: launch_vehicle_id
+#                                                 SpaceModuleDescriptor only; launch vehicle associated with that orbital construction module
+#
+# New-facility fields:
+#   facilityType:      Module | Habitation | Power | Mining | Production |
+#                      LaunchFacility | Terraformation | Other | FacilitySegment
+#   possiblePlacement: Surface | Orbit | Both
+#   facilityType: Module creates a real SpaceModuleDescriptor rather than a ground facility.
+#   iconRef:           base-game 2D sprite name from dump/facilities.yaml, dump/spacecraft.yaml,
+#                      or dump/launch_vehicles.yaml; use this to reuse built-in icons
+#   icon:              path to PNG/JPEG image, relative to the mod folder unless absolute
+#   name:              display name injected into localization
+#   description:       tooltip description injected into localization
+#   capabilities:      extra facility-info text injected as ID + "_Capabilities"
+#   isLocked:          bool   hidden from build menu until unlocked
+#   canBeScrapped:     bool   whether the facility can be demolished
+#   canBeTurnedOff:    bool   whether the facility can be disabled
+#   sortingShop:       int    build-menu sort order; lower appears earlier
+#   specialAbility:    None | CrewCapacity | EnergyProduction | EnergyStorage |
+#                      Mining | Refiner | Lab | BuildSpacecraft | ConstructShip |
+#                      InstallationModule | ConstructionEquipment | CrewTransport |
+#                      SpaceMirrorOrShade | Probe | Bonus
+#   energyProduction:  double  base energy output per day
+#   solarPanels:       bool    solar scaling
+#   windPower:         bool    wind-based power
+#   geothermal:        bool    geothermal power
+#
+# Lab notes:
+#   A working research lab needs more than specialAbility: Lab.
+#   To behave like the built-in research labs, it should also use:
+#     facilityItemClass: LabFacility
+#   and define one or more of:
+#     labBonusToResearchInPerHour
+#     labResearchSubTypeId
+#     labIdToBonus
+#
+# Refiner notes:
+#   refinerInput/refinerOutput use the same mapping shape as the dump.
+#   Do not use a list of {resource, rate, state}; refinery IO does not store state.
+#
+# Build-limit notes:
+#   The stock one-per-body rule is:
+#     canBuildBy: countOnPlanet
+#     countOnPlanet: 1
+#   `countOnPlanet` only matters for that canBuildBy mode.
+#
+# Module notes:
+#   A movable module is a SpaceModuleDescriptor.
+#   The base cargo mass is `mass`.
+#   Whether a module installs a facility/module is controlled by:
+#     specialAbility: InstallationModule
+#     facilityOrModuleToInstall: some_facility_id
+#
+# Example:
+# build_fuel:
+#   maintenanceCostPerDay: 12
+#   refinerInput:
+#     id_resource_water: 0.09
+#   refinerOutput:
+#     id_resource_fuel: 0.12
+#
+# id_facility_custom_lab:
+#   facilityType: Production
+#   possiblePlacement: Surface
+#   specialAbility: Lab
+#   facilityItemClass: LabFacility
+#   blockStacking: true
+#   labBonusToResearchInPerHour: 4
+#   labIdToBonus:
+#     - All
+

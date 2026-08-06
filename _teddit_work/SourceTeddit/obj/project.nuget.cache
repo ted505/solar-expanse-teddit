@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "+rpLYe+JtKk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\parft\\Documents\\SolarExpanseMods\\solar-expanse-teddit\\Source\\Teddit\\Teddit.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\parft\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.3\\microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "C:\\Users\\parft\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net471\\1.0.3\\microsoft.netframework.referenceassemblies.net471.1.0.3.nupkg.sha512",
+    "C:\\Users\\parft\\.nuget\\packages\\yamldotnet\\13.7.1\\yamldotnet.13.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}

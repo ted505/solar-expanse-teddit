@@ -364,18 +364,18 @@ namespace Teddit
 
                         if (requiresEquipment && slotIndex < slotEfficiencies.Count)
                         {
-                            buildingModule[i].UpdateBuilding((float)slotEfficiencies[slotIndex], totalDays);
+                            buildingModule[i].UpdateBuilding((float)slotEfficiencies[slotIndex], totalDays, slotIndex);
                             slotIndex++;
                         }
                         else
                         {
-                            buildingModule[i].UpdateBuilding(1f, totalDays);
+                            buildingModule[i].UpdateBuilding(1f, totalDays, slotIndex);
                         }
                     }
 
                     for (int j = 0; j < sclv.Count; j++)
                     {
-                        sclv[j].UpdateBuilding(1f, totalDays);
+                        sclv[j].UpdateBuilding(1f, totalDays, j);
                     }
                 }
             }
@@ -567,7 +567,7 @@ namespace Teddit
     // workforce efficiency, and shutdown notifications — matching the
     // ground-facility behaviour minus habitability.
 
-    [HarmonyPatch(typeof(EnergyProductionModule), "ProductEnergy")]
+    [HarmonyPatch(typeof(EnergyProductionModule), "ProductEnergy", new[] { typeof(double) })]
     static class PatchEnergyModuleProductEnergy
     {
         static bool Prefix(EnergyProductionModule __instance, double days)

@@ -547,18 +547,44 @@ namespace Teddit
 
         static MethodBase TargetMethod()
         {
-            return AccessTools.Method(PMTabScheduleType, "CalculateCostStart");
+            if (PMTabScheduleType == null)
+                return null;
+
+            MethodInfo methodWithParameter = null;
+            if (PMMissionParameterType != null)
+            {
+                methodWithParameter = AccessTools.Method(
+                    PMTabScheduleType,
+                    "CalculateCostStart",
+                    new[] { PMMissionParameterType, typeof(double), typeof(bool).MakeByRefType() });
+            }
+
+            if (methodWithParameter != null)
+                return methodWithParameter;
+
+            return AccessTools.Method(
+                PMTabScheduleType,
+                "CalculateCostStart",
+                new[] { typeof(double), typeof(bool).MakeByRefType() });
         }
 
-        static void Postfix(object __instance, ref double __result, ref bool launchCostZero)
+        static void Postfix(object __instance, object[] __args, ref double __result, ref bool launchCostZero)
         {
             if (__instance == null || PMTabScheduleType == null || PMMissionParameterType == null)
                 return;
 
             try
             {
-                object planMissionWindow = PlanMissionWindowField?.GetValue(__instance);
-                object pmp = PMMissionParameterProperty?.GetValue(planMissionWindow);
+                object pmp = null;
+                if (__args != null && __args.Length > 0 && __args[0] != null && PMMissionParameterType.IsInstanceOfType(__args[0]))
+                    pmp = __args[0];
+
+                if (pmp == null)
+                {
+                    object planMissionWindow = PlanMissionWindowField?.GetValue(__instance);
+                    pmp = PMMissionParameterProperty?.GetValue(planMissionWindow);
+                }
+
                 if (pmp == null)
                     return;
 

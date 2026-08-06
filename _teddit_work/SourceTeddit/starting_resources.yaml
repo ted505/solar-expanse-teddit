@@ -1,0 +1,38 @@
+# starting_resources.yaml -- set or add starting stockpiles per (body, company)
+# pair when a new game begins.
+#
+# Defaults to new-game-only. Set unsafeOverride: true on an entry to force changes
+# when loading a saved game. Like other unsafe overrides, that is mostly useful
+# for testing and can stack repeatedly across reloads.
+#
+# Body keys are ObjectInfo.ObjectName values (uppercase: EARTH, MARS, LUNA, ...).
+# Company is the CompanyDefinition.ID, or the alias 'world_government' to target
+# whichever active company has IsWorldGovernment=true.
+#
+# The company must be active in the current game. If it was disabled on the
+# start-game screen, Teddit skips the entry.
+#
+# `resources` is a map of resource IDs to amounts.
+# `mode` controls how those amounts are applied:
+#   - set (default): force the stockpile to exactly the given amount
+#   - add: add the amount on top of the vanilla starting stockpile
+#
+# Example (uncomment to use):
+#
+# enabled: true
+#
+# EARTH:
+#   - company: world_government
+#     mode: set
+#     resources:
+#       id_resource_metal: 1000000
+#       id_resource_glass: 250000
+#
+# MARS:
+#   - company: id_company_spacey
+#     mode: add
+#     resources:
+#       id_resource_fuel: 5000
+#       id_resource_supplies: 200
+
+enabled: true

@@ -1,0 +1,43 @@
+enabled: true
+
+# Teddit life support patch file
+#
+# This file controls colony/habitat life-support byproducts.
+# The game normally only consumes id_resource_supply. Teddit can add outputs
+# based on how much supply was actually consumed during UpdateLifeSupport().
+#
+# Safety:
+# - enabled should normally stay true in the root Teddit file so mod-local
+#   life_support.yaml files can merge in
+# - any loaded root life_support.yaml with enabled: false hard-disables the subsystem
+# - deposit writes follow the same lightweight pattern used by facility byproducts
+#
+# Dump/patch rule:
+# - Keep patch shapes simple and stable
+# - One byproduct entry = one output rule
+#
+# Fields:
+#   enabled: true/false master toggle
+#   resource: resource ID to produce
+#   rate: amount produced per 1.0 supply consumed
+#   target: Deposit or Storage
+#   state: required only for Deposit targets; Solid/Liquid/Gas/Underground
+#
+# Example:
+# humanLifeSupport:
+#   enabled: true
+#   byproducts:
+#     - resource: id_resource_co2
+#       rate: 0.25
+#       target: Deposit
+#       state: Gas
+#     - resource: id_resource_water
+#       rate: 0.05
+#       target: Storage
+
+humanLifeSupport:
+  # supplyTonsPerCrewDay: 0.2
+  # shipSupplyTonsPerCrewDay: 0.2
+  # colonySupplyTonsPerCrewDay: 0.2
+  byproducts: []
+
