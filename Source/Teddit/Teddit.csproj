@@ -10,6 +10,7 @@
     <GameDir>E:\STEAM\steamapps\common\Solar Expanse</GameDir>
     <ManagedDir>$(GameDir)\Solar Expanse_Data\Managed</ManagedDir>
     <BepInExDir>$(GameDir)\BepInEx</BepInExDir>
+    <RepoRootDir>$(MSBuildProjectDirectory)\..\..</RepoRootDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -86,15 +87,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="YamlDotNet" Version="13.7.1">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <Reference Include="YamlDotNet">
+      <HintPath>$(RepoRootDir)\Teddit\YamlDotNet.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
   </ItemGroup>
 
   <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployTeddit)' == 'true'">
     <PropertyGroup>
       <PluginDir>$(BepInExDir)\plugins\Teddit</PluginDir>
-      <RepoRootDir>$(MSBuildProjectDirectory)\..\..</RepoRootDir>
       <RepoPluginDir>$(RepoRootDir)\Teddit</RepoPluginDir>
       <ExampleModDir>$(RepoRootDir)\example_mod</ExampleModDir>
     </PropertyGroup>

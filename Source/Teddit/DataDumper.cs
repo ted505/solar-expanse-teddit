@@ -317,7 +317,11 @@ namespace Teddit
                 {
                     sb.AppendLine($"  canBuildBy: {YamlScalar(fd.CanBuildParameter.canBuildBy.ToString())}");
                     if (fd.CanBuildParameter.canBuildBy == CanBuildParameter.ECanBuild.countOnPlanet)
-                        sb.AppendLine($"  countOnPlanet: {fd.CanBuildParameter.countOnPlanet}");
+                    {
+                        object countOnPlanet = GetMemberValue(fd.CanBuildParameter, "countOnPlanet");
+                        if (countOnPlanet != null)
+                            sb.AppendLine($"  countOnPlanet: {countOnPlanet}");
+                    }
                 }
                 string facilityIconRef = FacilityCreator.GetSpriteReference(fd.Sprite);
                 if (!string.IsNullOrEmpty(facilityIconRef))
@@ -1369,6 +1373,24 @@ namespace Teddit
         static string FormatFloat(float v)   => v.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
         static string FormatDouble(double v)  => v.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
         static string FormatBool(bool v)      => v ? "true" : "false";
+
+        static object GetMemberValue(object instance, string name)
+        {
+            if (instance == null || string.IsNullOrEmpty(name))
+                return null;
+
+            Type type = instance.GetType();
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            FieldInfo field = type.GetField(name, flags);
+            if (field != null)
+                return field.GetValue(instance);
+
+            PropertyInfo property = type.GetProperty(name, flags);
+            if (property != null && property.GetIndexParameters().Length == 0)
+                return property.GetValue(instance, null);
+
+            return null;
+        }
 
         static string FormatNullableFloat(float? v)
         {
